@@ -7,14 +7,14 @@ def load_data(dataset, val_ratio):
     
     if 'SMD' in dataset:
         d, n1, n2 = dataset.split('_')
-        train = np.load(f'../../data/{d}/machine-{n1}-{n2}_train.npy').astype(np.float64)
-        test = np.load(f'../../data/{d}/machine-{n1}-{n2}_test.npy').astype(np.float64)
-        labels = np.load(f'../../data/{d}/machine-{n1}-{n2}_labels.npy').astype(np.float64)
+        train = np.load(f'./data/{d}/machine-{n1}-{n2}_train.npy').astype(np.float64)
+        test = np.load(f'./data/{d}/machine-{n1}-{n2}_test.npy').astype(np.float64)
+        labels = np.load(f'./data/{d}/machine-{n1}-{n2}_labels.npy').astype(np.float64)
 
     else:
-        train = np.load(f'../../data/{dataset}/train.npy').astype(np.float64)
-        test = np.load(f'../../data/{dataset}/test.npy').astype(np.float64)
-        labels = np.load(f'../../data/{dataset}/labels.npy').astype(np.float64)
+        train = np.load(f'./data/{dataset}/train.npy').astype(np.float64)
+        test = np.load(f'./data/{dataset}/test.npy').astype(np.float64)
+        labels = np.load(f'./data/{dataset}/labels.npy').astype(np.float64)
 
     # Train-validation split
     val_length = int(train.shape[0] * val_ratio)
