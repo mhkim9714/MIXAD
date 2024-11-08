@@ -109,25 +109,25 @@ if __name__ == "__main__":
     parser.add_argument('-dataset', help='dataset name', type=str, default='SMD_1_1')
     parser.add_argument('-num_nodes', help='number of nodes', type=int, default=38)
     parser.add_argument('-seq_len', help='input sequence length', type=int, default=30)
-    parser.add_argument('-horizon', help='output sequence length', type=int, default=30)
+    parser.add_argument('-horizon', help='output sequence length', type=int, default=1)
     parser.add_argument('-val_ratio', help='val ratio', type=float, default=0.2)
     parser.add_argument('-input_dim', help='number of input channel', type=int, default=1)
     parser.add_argument('-output_dim', help='number of output channel', type=int, default=1)
     # model
-    parser.add_argument('-max_diffusion_step', help='max diffusion step or Cheb K', type=int, default=2)
+    parser.add_argument('-max_diffusion_step', help='max diffusion step or Cheb K', type=int, default=3)
     parser.add_argument('-num_rnn_layers', help='number of rnn layers', type=int, default=1)
     parser.add_argument('-rnn_units', help='number of rnn units', type=int, default=64)
-    parser.add_argument('-mem_num', help='number of meta-nodes/prototypes', type=int, default=10)
+    parser.add_argument('-mem_num', help='number of meta-nodes/prototypes', type=int, default=5)
     parser.add_argument('-mem_dim', help='dimension of meta-nodes/prototypes', type=int, default=64)
     # train
     parser.add_argument("-loss", help="mask_mae_loss", type=str, default='mask_mae_loss')
     parser.add_argument('-lamb_cont', help='lamb value for contrastive loss', type=float, default=0.01)
-    parser.add_argument('-lamb_cons', help='lamb value for consistency loss', type=float, default=0.01)
-    parser.add_argument('-lamb_kl', help='lamb value for kl loss', type=float, default=0.01)
-    parser.add_argument("-epochs", help="number of epochs of training", type=int, default=200)
-    parser.add_argument("-patience", help="patience used for early stop", type=int, default=20)
-    parser.add_argument("-batch_size", help="size of the batches", type=int, default=64)
-    parser.add_argument("-lr", help="base learning rate", type=float, default=0.01)
+    parser.add_argument('-lamb_cons', help='lamb value for consistency loss', type=float, default=0.1)
+    parser.add_argument('-lamb_kl', help='lamb value for kl loss', type=float, default=0.0001)
+    parser.add_argument("-epochs", help="number of epochs of training", type=int, default=30)
+    parser.add_argument("-patience", help="patience used for early stop", type=int, default=10)
+    parser.add_argument("-batch_size", help="size of the batches", type=int, default=256)
+    parser.add_argument("-lr", help="base learning rate", type=float, default=0.001)
     parser.add_argument("-steps", help="steps", type=eval, default=[50, 100])
     parser.add_argument("-lr_decay_ratio", help="lr_decay_ratio", type=float, default=0.1)
     parser.add_argument("-epsilon", help="optimizer epsilon", type=float, default=1e-3)
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     parser.add_argument('-wandb', help='wandb logging', type=eval, choices=[True, False], default='False')
     # log
     parser.add_argument('-log_dir', help='model save directory', type=str, default='')
-    parser.add_argument('-comment', help='experiment comment', type=str, default='initial_trial')
+    parser.add_argument('-comment', help='experiment comment', type=str, default='comment')
     # misc
     parser.add_argument('-seed', help='random seed', type=int, default=42)
     parser.add_argument('-device', help='cuda:0 / cpu', type=str, default='cuda:0')
@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
     log_name = local_time.strftime("%m-%d-%HH%MM%Ss")+f"_{args.comment}"
     if args.load_dir == '': 
-        args.log_dir = f'../results/{args.dataset}/{log_name}'
+        args.log_dir = f'./results/{args.dataset}/{log_name}'
         if not os.path.exists(args.log_dir):
             os.makedirs(args.log_dir)
     else: 
